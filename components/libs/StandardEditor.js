@@ -46,9 +46,19 @@ const QuillEditor = ({ value, onChange }) => {
   };
   const OnSelectFile = (url) => {
     const range = quillRef.current.getSelection();
+    if(!range) {
+      setIsOpen(false);
+      uploadingRef.current = false;
+      return
+    }
     quillRef.current.insertEmbed(range.index, "image", url);
     setIsOpen(false);
     uploadingRef.current = false;
+
+    quillRef.current.setSelection(range.index + 1);
+
+    quillRef.current.focus();
+    setIsOpen(false);
   };
   return (
     <div>
